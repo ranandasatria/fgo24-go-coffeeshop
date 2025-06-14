@@ -10,6 +10,7 @@ var mainmenu = []string{
 	"1. Order",
 	"2. Cart",
 	"3. Checkout",
+	"4. Search",
 	"0. Exit",
 }
 
@@ -35,7 +36,9 @@ func MainMenu(message ...string) {
 	case 2:
 		ShowCart()
 	case 3:
-		Checkout()
+	Checkout()
+	case 4:
+	SearchFoods()
 	case 0:
 		fmt.Println("Thank you!")
 		os.Exit(0)
