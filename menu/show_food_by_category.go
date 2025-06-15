@@ -7,6 +7,7 @@ import (
 
 func ShowFoodsByCategory(category string) {
 	var message string
+	cartManager := &CartManager{}
 
 	for {
 		utils.ClearScreen()
@@ -27,14 +28,16 @@ func ShowFoodsByCategory(category string) {
 		}
 		fmt.Println("9. Back")
 
-		var choice int
-		fmt.Print("Input choice: ")
-		fmt.Scanln(&choice)
+		choice, err := utils.ReadIntInput("Input choice: ")
+		if err != nil {
+			message = "Invalid choice."
+			continue
+		}
 
 		if choice > 0 && choice <= len(availableItems) {
-			success := AddToCart(availableItems[choice-1])
+			success := cartManager.AddToCart(availableItems[choice-1])
 			if success {
-			message = "Item added to cart."
+				message = "Item added to cart."
 			} else {
 				message = "Cancelled."
 			}

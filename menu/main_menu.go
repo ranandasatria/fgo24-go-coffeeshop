@@ -15,34 +15,49 @@ var mainmenu = []string{
 }
 
 func MainMenu(message ...string) {
-	utils.ClearScreen()
-
+	var msg string
 	if len(message) > 0 && message[0] != "" {
-		fmt.Println(message[0])
+		msg = message[0]
 	}
 
-	fmt.Println("--- Home ---")
-	for _, item := range mainmenu {
-		fmt.Println(item)
-	}
+	cartManager := &CartManager{}
 
-	var input int
-	fmt.Print("Input choice: ")
-	fmt.Scanln(&input)
+	for {
+		utils.ClearScreen()
+		if msg != "" {
+			fmt.Println(msg)
+			msg = ""
+		}
 
-	switch input {
-	case 1:
-		ShowFoodCategory()
-	case 2:
-		ShowCart()
-	case 3:
-	Checkout()
-	case 4:
-	SearchFoods()
-	case 0:
-		fmt.Println("Thank you!")
-		os.Exit(0)
-	default:
-		MainMenu("Invalid choice.")
+		fmt.Println("--- Home ---")
+		for _, item := range mainmenu {
+			fmt.Println(item)
+		}
+
+		input, err := utils.ReadIntInput("Input choice: ")
+		if err != nil {
+			msg = "Invalid choice."
+			continue
+		}
+
+		switch input {
+		case 1:
+			ShowFoodCategory()
+			return
+		case 2:
+			cartManager.ShowCart()
+			return
+		case 3:
+			cartManager.Checkout()
+			return
+		case 4:
+			SearchFoods()
+			return
+		case 0:
+			fmt.Println("Thank you!")
+			os.Exit(0)
+		default:
+			msg = "Invalid choice."
+		}
 	}
 }
