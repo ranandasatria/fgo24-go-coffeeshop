@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"sync"
 )
 
 func SearchFoods() {
@@ -19,7 +20,7 @@ func SearchFoods() {
 		}
 
 		fmt.Println("--- Search ---")
-		fmt.Print("Enter keyword to search: ")
+		fmt.Print("Enter keyword to search (or 'back' to return): ")
 		var keyword string
 		fmt.Scanln(&keyword)
 
@@ -30,11 +31,32 @@ func SearchFoods() {
 
 		keyword = strings.ToLower(keyword)
 		var results []*Food
-		for i := range FoodList {
-			if strings.Contains(strings.ToLower(FoodList[i].Name), keyword) {
-				results = append(results, &FoodList[i])
+		var mu sync.Mutex
+		var wg sync.WaitGroup
+
+		chunkSize := (len(FoodList) + 3) / 4 
+		for i := 0; i < len(FoodList); i += chunkSize {
+			end := i + chunkSize
+			if end > len(FoodList) {
+				end = len(FoodList)
 			}
+
+			wg.Add(1)
+			go func(start, end int) {
+				defer wg.Done()
+				localResults := []*Food{}
+				for j := start; j < end; j++ {
+					if strings.Contains(strings.ToLower(FoodList[j].Name), keyword) {
+						localResults = append(localResults, &FoodList[j])
+					}
+				}
+				mu.Lock()
+				results = append(results, localResults...)
+				mu.Unlock()
+			}(i, end)
 		}
+
+		wg.Wait()
 
 		if len(results) == 0 {
 			message = "❌ No matching items found."
@@ -49,7 +71,7 @@ func SearchFoods() {
 
 		choice, err := utils.ReadStringInput("Select item to add to cart: ")
 		if err != nil {
-			message = "Invalid input."
+			message = "Invalid choice."
 			continue
 		}
 
@@ -60,7 +82,7 @@ func SearchFoods() {
 
 		choiceNum, err := strconv.Atoi(choice)
 		if err != nil {
-			message = "Invalid input."
+			message = "Invalid choice."
 			continue
 		}
 
@@ -73,6 +95,6 @@ func SearchFoods() {
 			continue
 		}
 
-		message = "Invalid input."
+		message = "Invalid choice."
 	}
 }
