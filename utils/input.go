@@ -2,11 +2,12 @@ package utils
 
 import (
 	"fmt"
+	"strings"
 )
 
-func ReadIntInput(prompt string) (int, error) {
+func ReadStringInput(prompt string) (string, error) {
 	fmt.Print(prompt)
-	var input int
+	var input string
 	_, err := fmt.Scanln(&input)
-	return input, err
+	return strings.TrimSpace(input), err
 }
