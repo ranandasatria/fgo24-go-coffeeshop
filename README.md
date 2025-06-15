@@ -1,6 +1,6 @@
 # Simple Go Food Order CLI App  
 
-A simple food ordering console application built in Go. Users can browse food by category, search for items, add them to cart, and simulate a checkout. The app demonstrates fundamental Go concepts like modular packages, user input, conditionals, and slices.
+A simple food ordering console application built in Go. Users can browse food by category, search for items, add them to cart, and simulate a checkout. The app demonstrates fundamental Go concepts like modular packages, user input, conditionals, slices, method, goroutines, waitgroup, mutex, and simple pagination.
 
 ---
 
