@@ -5,16 +5,23 @@ import (
 	"fmt"
 )
 
-func Checkout() {
-	if len(Cart) == 0 {
-		MainMenu("Cart is empty. Nothing to checkout.")
-		return
-	}
+func (c *CartManager) Checkout() {
+	var message string
 
 	for {
 		utils.ClearScreen()
+		if message != "" {
+			fmt.Println(message)
+			message = ""
+		}
+
+		if len(Cart) == 0 {
+			MainMenu("Cart is empty. Nothing to checkout.")
+			return
+		}
+
 		fmt.Println("--- Checkout ---")
-		printCartItems()
+		c.printCartItems()
 
 		fmt.Print("Proceed to checkout? (y/n): ")
 		var input string
@@ -28,15 +35,13 @@ func Checkout() {
 			MainMenu("Checkout canceled.")
 			return
 		} else {
-			fmt.Println("Invalid input. Please enter y or n.")
+			message = "Invalid input. Please enter y or n."
 		}
 	}
 }
 
-func printCartItems() {
+func (c *CartManager) printCartItems() {
 	for i, item := range Cart {
 		fmt.Printf("%d. %s: Rp%d\n", i+1, item.Name, item.Price)
 	}
 }
-
-
