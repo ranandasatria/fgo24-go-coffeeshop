@@ -3,6 +3,7 @@ package menu
 import (
 	"fgo24-go-weeklytask/utils"
 	"fmt"
+	"os"
 )
 
 var FoodCategoryMenu = []string{
@@ -15,30 +16,47 @@ var FoodCategoryMenu = []string{
 }
 
 func ShowFoodCategory() {
-	utils.ClearScreen()
+	var message string
 
-	fmt.Println("--- Food Category ---")
-	for _, item := range FoodCategoryMenu {
-		fmt.Println(item)
+	for {
+		utils.ClearScreen()
+		if message != "" {
+			fmt.Println(message)
+			message = ""
+		}
+
+		fmt.Println("--- Food Category ---")
+		for _, item := range FoodCategoryMenu {
+			fmt.Println(item)
+		}
+
+		input, err := utils.ReadIntInput("Input choice: ")
+		if err != nil {
+			message = "Invalid choice."
+			continue
+		}
+
+		switch input {
+		case 1:
+			ShowFoodsByCategory("Meals")
+			return
+		case 2:
+			ShowFoodsByCategory("Drinks")
+			return
+		case 3:
+			ShowFoodsByCategory("Snacks")
+			return
+		case 4:
+			ShowFoodsByCategory("Desserts")
+			return
+		case 9:
+			MainMenu()
+			return
+		case 0:
+			fmt.Println("Thank you!")
+			os.Exit(0)
+		default:
+			message = "Invalid choice."
+		}
 	}
-
-	var input int
-	fmt.Print("Input choice: ")
-	fmt.Scanln(&input)
-
-	switch input {
-	case 1:
-		ShowFoodsByCategory("Meals")
-	case 2:
-		ShowFoodsByCategory("Drinks")
-	case 3:
-		ShowFoodsByCategory("Snacks")
-	case 4:
-		ShowFoodsByCategory("Desserts")
-	case 9:
-		MainMenu()
-	default:
-		fmt.Println("Invalid choice.")
-	}
-
 }
