@@ -5,9 +5,11 @@ import (
 	"fmt"
 )
 
+type CartManager struct{}
+
 var Cart []*Food
 
-func AddToCart(food *Food) bool {
+func (c *CartManager) AddToCart(food *Food) bool {
 	var input string
 	fmt.Printf("Add '%s' to cart? (y/n): ", food.Name)
 	fmt.Scanln(&input)
@@ -19,18 +21,34 @@ func AddToCart(food *Food) bool {
 	return false
 }
 
-func ShowCart() {
-	utils.ClearScreen()
+func (c *CartManager) ShowCart() {
+	var message string
 
-	if len(Cart) == 0 {
-		for {
+	for {
+		utils.ClearScreen()
+		if message != "" {
+			fmt.Println(message)
+			message = ""
+		}
+
+		if len(Cart) == 0 {
 			fmt.Println("Cart is empty.")
 			fmt.Println("1. Order\n9. Back")
+		} else {
+			fmt.Println("--- Cart ---")
+			for i, item := range Cart {
+				fmt.Printf("%d. %s: Rp%d\n", i+1, item.Name, item.Price)
+			}
+			fmt.Println("\n9. Back")
+		}
 
-			var choice int
-			fmt.Print("Input choice: ")
-			fmt.Scanln(&choice)
+		choice, err := utils.ReadIntInput("Input choice: ")
+		if err != nil {
+			message = "Invalid choice."
+			continue
+		}
 
+		if len(Cart) == 0 {
 			switch choice {
 			case 1:
 				ShowFoodCategory()
@@ -39,28 +57,14 @@ func ShowCart() {
 				MainMenu()
 				return
 			default:
-				fmt.Println("Invalid choice.")
+				message = "Invalid choice."
 			}
-		}
-	}
-
-	fmt.Println("--- Cart ---")
-	for i, item := range Cart {
-		fmt.Printf("%d. %s: Rp%d\n", i+1, item.Name, item.Price)
-	}
-	fmt.Println("\n9. Back")
-
-	for {
-		var choice int
-		fmt.Print("Input choice: ")
-		fmt.Scanln(&choice)
-
-		switch choice {
-		case 9:
-			MainMenu()
-			return
-		default:
-			fmt.Println("Invalid choice.")
+		} else {
+			if choice == 9 {
+				MainMenu()
+				return
+			}
+			message = "Invalid choice."
 		}
 	}
 }
