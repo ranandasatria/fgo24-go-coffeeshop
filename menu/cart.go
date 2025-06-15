@@ -33,38 +33,39 @@ func (c *CartManager) ShowCart() {
 
 		if len(Cart) == 0 {
 			fmt.Println("Cart is empty.")
-			fmt.Println("1. Order\n9. Back")
+			fmt.Println("o. Order")
+			fmt.Println("b. Back")
 		} else {
 			fmt.Println("--- Cart ---")
 			for i, item := range Cart {
 				fmt.Printf("%d. %s: Rp%d\n", i+1, item.Name, item.Price)
 			}
-			fmt.Println("\n9. Back")
+			fmt.Println("\nb. Back")
 		}
 
-		choice, err := utils.ReadIntInput("Input choice: ")
+		input, err := utils.ReadStringInput("Input choice: ")
 		if err != nil {
-			message = "Invalid choice."
+			message = "Invalid input."
 			continue
 		}
 
 		if len(Cart) == 0 {
-			switch choice {
-			case 1:
+			switch input {
+			case "o":
 				ShowFoodCategory()
 				return
-			case 9:
+			case "b":
 				MainMenu()
 				return
 			default:
-				message = "Invalid choice."
+				message = "Invalid input."
 			}
 		} else {
-			if choice == 9 {
+			if input == "b" {
 				MainMenu()
 				return
 			}
-			message = "Invalid choice."
+			message = "Invalid input."
 		}
 	}
 }

@@ -3,17 +3,7 @@ package menu
 import (
 	"fgo24-go-weeklytask/utils"
 	"fmt"
-	"os"
 )
-
-var FoodCategoryMenu = []string{
-	"1. Meals",
-	"2. Drinks",
-	"3. Snacks",
-	"4. Desserts",
-	"9. Back",
-	"0. Exit",
-}
 
 func ShowFoodCategory() {
 	var message string
@@ -26,37 +16,36 @@ func ShowFoodCategory() {
 		}
 
 		fmt.Println("--- Food Category ---")
-		for _, item := range FoodCategoryMenu {
-			fmt.Println(item)
-		}
+		fmt.Println("1. Meals")
+		fmt.Println("2. Drinks")
+		fmt.Println("3. Snacks")
+		fmt.Println("4. Desserts")
+		fmt.Println("b. Back")
 
-		input, err := utils.ReadIntInput("Input choice: ")
+		input, err := utils.ReadStringInput("Input choice: ")
 		if err != nil {
-			message = "Invalid choice."
+			message = "Invalid input."
 			continue
 		}
 
 		switch input {
-		case 1:
+		case "1":
 			ShowFoodsByCategory("Meals")
 			return
-		case 2:
+		case "2":
 			ShowFoodsByCategory("Drinks")
 			return
-		case 3:
+		case "3":
 			ShowFoodsByCategory("Snacks")
 			return
-		case 4:
+		case "4":
 			ShowFoodsByCategory("Desserts")
 			return
-		case 9:
+		case "b":
 			MainMenu()
 			return
-		case 0:
-			fmt.Println("Thank you!")
-			os.Exit(0)
 		default:
-			message = "Invalid choice."
+			message = "Invalid input."
 		}
 	}
 }

@@ -35,7 +35,7 @@ func (c *CartManager) Checkout() {
 			MainMenu("Checkout canceled.")
 			return
 		} else {
-			message = "Invalid input. Please enter y or n."
+			message = "Invalid input."
 		}
 	}
 }

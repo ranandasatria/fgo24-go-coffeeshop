@@ -11,7 +11,7 @@ var mainmenu = []string{
 	"2. Cart",
 	"3. Checkout",
 	"4. Search",
-	"0. Exit",
+	"e. Exit",
 }
 
 func MainMenu(message ...string) {
@@ -34,30 +34,30 @@ func MainMenu(message ...string) {
 			fmt.Println(item)
 		}
 
-		input, err := utils.ReadIntInput("Input choice: ")
+		input, err := utils.ReadStringInput("Input choice: ")
 		if err != nil {
-			msg = "Invalid choice."
+			msg = "Invalid input."
 			continue
 		}
 
 		switch input {
-		case 1:
+		case "1":
 			ShowFoodCategory()
 			return
-		case 2:
+		case "2":
 			cartManager.ShowCart()
 			return
-		case 3:
+		case "3":
 			cartManager.Checkout()
 			return
-		case 4:
+		case "4":
 			SearchFoods()
 			return
-		case 0:
+		case "e":
 			fmt.Println("Thank you!")
 			os.Exit(0)
 		default:
-			msg = "Invalid choice."
+			msg = "Invalid input."
 		}
 	}
 }

@@ -3,6 +3,7 @@ package menu
 import (
 	"fgo24-go-weeklytask/utils"
 	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -18,7 +19,7 @@ func SearchFoods() {
 		}
 
 		fmt.Println("--- Search ---")
-		fmt.Print("Enter keyword to search (or 'back' to return): ")
+		fmt.Print("Enter keyword to search: ")
 		var keyword string
 		fmt.Scanln(&keyword)
 
@@ -44,21 +45,27 @@ func SearchFoods() {
 		for i, item := range results {
 			fmt.Printf("%d. %s: Rp%d\n", i+1, item.Name, item.Price)
 		}
-		fmt.Println("0. Cancel")
+		fmt.Println("b. Back")
 
-		choice, err := utils.ReadIntInput("Select item to add to cart (0 to cancel): ")
+		choice, err := utils.ReadStringInput("Select item to add to cart: ")
 		if err != nil {
-			message = "Invalid choice."
+			message = "Invalid input."
 			continue
 		}
 
-		if choice == 0 {
-			message = "No item added."
+		if choice == "b" {
+			MainMenu()
+			return
+		}
+
+		choiceNum, err := strconv.Atoi(choice)
+		if err != nil {
+			message = "Invalid input."
 			continue
 		}
 
-		if choice > 0 && choice <= len(results) {
-			if cartManager.AddToCart(results[choice-1]) {
+		if choiceNum > 0 && choiceNum <= len(results) {
+			if cartManager.AddToCart(results[choiceNum-1]) {
 				message = "Item added to cart."
 			} else {
 				message = "Cancelled."
@@ -66,6 +73,6 @@ func SearchFoods() {
 			continue
 		}
 
-		message = "Invalid choice."
+		message = "Invalid input."
 	}
 }
