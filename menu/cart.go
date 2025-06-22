@@ -6,13 +6,13 @@ import (
 )
 
 type TransactionManager interface {
-	AddToCart(*Food)bool
+	AddToCart(*Food) bool
 	ShowCart()
 	Checkout()
 	printCartItems()
 }
 
-type CartManager struct{
+type CartManager struct {
 	food []Food
 }
 

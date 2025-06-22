@@ -22,6 +22,8 @@ func MainMenu(message ...string) {
 
 	var cartManager TransactionManager = NewCartManager()
 
+	adsCh := utils.AdsChannel() 
+
 	for {
 		utils.ClearScreen()
 		if msg != "" {
@@ -32,6 +34,13 @@ func MainMenu(message ...string) {
 		fmt.Println("--- Home ---")
 		for _, item := range mainmenu {
 			fmt.Println(item)
+		}
+
+		select {
+		case ads := <-adsCh:
+			fmt.Println("\nRekomendasi: " + ads)
+		default:
+			fmt.Println()
 		}
 
 		input, err := utils.ReadStringInput("Input choice: ")
