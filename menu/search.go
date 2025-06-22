@@ -20,11 +20,11 @@ func SearchFoods() {
 		}
 
 		fmt.Println("--- Search ---")
-		fmt.Print("Enter keyword to search (or 'back' to return): ")
+		fmt.Print("Enter keyword to search (or 'b' to return): ")
 		var keyword string
 		fmt.Scanln(&keyword)
 
-		if keyword == "back" {
+		if keyword == "b" {
 			MainMenu()
 			return
 		}
@@ -34,26 +34,16 @@ func SearchFoods() {
 		var mu sync.Mutex
 		var wg sync.WaitGroup
 
-		chunkSize := (len(FoodList) + 3) / 4 
-		for i := 0; i < len(FoodList); i += chunkSize {
-			end := i + chunkSize
-			if end > len(FoodList) {
-				end = len(FoodList)
-			}
-
+		for i := range FoodList {
 			wg.Add(1)
-			go func(start, end int) {
+			go func(index int) {
 				defer wg.Done()
-				localResults := []*Food{}
-				for j := start; j < end; j++ {
-					if strings.Contains(strings.ToLower(FoodList[j].Name), keyword) {
-						localResults = append(localResults, &FoodList[j])
-					}
+				if strings.Contains(strings.ToLower(FoodList[index].Name), keyword) {
+					mu.Lock()
+					results = append(results, &FoodList[index])
+					mu.Unlock()
 				}
-				mu.Lock()
-				results = append(results, localResults...)
-				mu.Unlock()
-			}(i, end)
+			}(i)
 		}
 
 		wg.Wait()
