@@ -20,7 +20,7 @@ func MainMenu(message ...string) {
 		msg = message[0]
 	}
 
-	cartManager := &CartManager{}
+	var cartManager TransactionManager = NewCartManager()
 
 	for {
 		utils.ClearScreen()

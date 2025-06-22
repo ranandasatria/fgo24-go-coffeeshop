@@ -5,9 +5,24 @@ import (
 	"fmt"
 )
 
-type CartManager struct{}
+type TransactionManager interface {
+	AddToCart(*Food)bool
+	ShowCart()
+	Checkout()
+	printCartItems()
+}
+
+type CartManager struct{
+	food []Food
+}
 
 var Cart []*Food
+
+func NewCartManager() *CartManager {
+	return &CartManager{
+		food: []Food{},
+	}
+}
 
 func (c *CartManager) AddToCart(food *Food) bool {
 	var input string
