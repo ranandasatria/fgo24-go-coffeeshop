@@ -1,4 +1,4 @@
-package menu
+package models
 
 type Food struct {
 	Name     string

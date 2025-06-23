@@ -1,6 +1,7 @@
 package menu
 
 import (
+	"fgo24-go-weeklytask/models"
 	"fgo24-go-weeklytask/utils"
 	"fmt"
 )
@@ -28,7 +29,7 @@ func (c *CartManager) Checkout() {
 		fmt.Scanln(&input)
 
 		if input == "y" || input == "Y" {
-			Cart = []*Food{}
+			Cart = []*models.Food{}
 			MainMenu("✅ Checkout successful! Thank you for your purchase.")
 			return
 		} else if input == "n" || input == "N" {

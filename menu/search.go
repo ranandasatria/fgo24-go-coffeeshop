@@ -1,6 +1,7 @@
 package menu
 
 import (
+	"fgo24-go-weeklytask/models"
 	"fgo24-go-weeklytask/utils"
 	"fmt"
 	"strconv"
@@ -30,17 +31,17 @@ func SearchFoods() {
 		}
 
 		keyword = strings.ToLower(keyword)
-		var results []*Food
+		var results []*models.Food
 		var mu sync.Mutex
 		var wg sync.WaitGroup
 
-		for i := range FoodList {
+		for i := range models.FoodList {
 			wg.Add(1)
 			go func(index int) {
 				defer wg.Done()
-				if strings.Contains(strings.ToLower(FoodList[index].Name), keyword) {
+				if strings.Contains(strings.ToLower(models.FoodList[index].Name), keyword) {
 					mu.Lock()
-					results = append(results, &FoodList[index])
+					results = append(results, &models.FoodList[index])
 					mu.Unlock()
 				}
 			}(i)

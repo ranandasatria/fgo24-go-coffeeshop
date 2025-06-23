@@ -1,6 +1,7 @@
 package menu
 
 import (
+	"fgo24-go-weeklytask/models"
 	"fgo24-go-weeklytask/utils"
 	"fmt"
 	"strconv"
@@ -23,10 +24,10 @@ func ShowFoodsByCategory(category string) {
 
 		fmt.Printf("--- %s (Page %d) ---\n", category, currentPage)
 
-		var availableItems []*Food
-		for i := range FoodList {
-			if FoodList[i].Category == category {
-				availableItems = append(availableItems, &FoodList[i])
+		var availableItems []*models.Food
+		for i := range models.FoodList {
+			if models.FoodList[i].Category == category {
+				availableItems = append(availableItems, &models.FoodList[i])
 			}
 		}
 

@@ -1,30 +1,31 @@
 package menu
 
 import (
+	"fgo24-go-weeklytask/models"
 	"fgo24-go-weeklytask/utils"
 	"fmt"
 )
 
 type TransactionManager interface {
-	AddToCart(*Food) bool
+	AddToCart(*models.Food) bool
 	ShowCart()
 	Checkout()
 	printCartItems()
 }
 
 type CartManager struct {
-	food []Food
+	food []models.Food
 }
 
-var Cart []*Food
+var Cart []*models.Food
 
 func NewCartManager() *CartManager {
 	return &CartManager{
-		food: []Food{},
+		food: []models.Food{},
 	}
 }
 
-func (c *CartManager) AddToCart(food *Food) bool {
+func (c *CartManager) AddToCart(food *models.Food) bool {
 	var input string
 	fmt.Printf("Add '%s' to cart? (y/n): ", food.Name)
 	fmt.Scanln(&input)
