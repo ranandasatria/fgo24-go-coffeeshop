@@ -1,6 +1,7 @@
 package menu
 
 import (
+	"fgo24-go-weeklytask/controllers"
 	"fgo24-go-weeklytask/models"
 	"fgo24-go-weeklytask/utils"
 	"fmt"
@@ -11,7 +12,7 @@ import (
 
 func SearchFoods() {
 	var message string
-	cartManager := &CartManager{}
+	cartManager := controllers.NewCartManager()
 
 	for {
 		utils.ClearScreen()

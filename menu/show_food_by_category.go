@@ -1,6 +1,7 @@
 package menu
 
 import (
+	"fgo24-go-weeklytask/controllers"
 	"fgo24-go-weeklytask/models"
 	"fgo24-go-weeklytask/utils"
 	"fmt"
@@ -12,7 +13,7 @@ const itemsPerPage = 5
 
 func ShowFoodsByCategory(category string) {
 	var message string
-	cartManager := &CartManager{}
+	cartManager := controllers.NewCartManager()
 	currentPage := 1
 
 	for {

@@ -20,9 +20,7 @@ func MainMenu(message ...string) {
 		msg = message[0]
 	}
 
-	var cartManager TransactionManager = NewCartManager()
-
-	adsCh := utils.AdsChannel() 
+	adsCh := AdsChannel()
 
 	for {
 		utils.ClearScreen()
@@ -38,7 +36,7 @@ func MainMenu(message ...string) {
 
 		select {
 		case ads := <-adsCh:
-			fmt.Println("\nRekomendasi: " + ads)
+			fmt.Println("\nToday's delight: " + ads)
 		default:
 			fmt.Println()
 		}
@@ -54,10 +52,10 @@ func MainMenu(message ...string) {
 			ShowFoodCategory()
 			return
 		case "2":
-			cartManager.ShowCart()
+			ShowCart()
 			return
 		case "3":
-			cartManager.Checkout()
+			Checkout()
 			return
 		case "4":
 			SearchFoods()
